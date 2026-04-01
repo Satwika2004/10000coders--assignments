@@ -1,0 +1,216 @@
+
+-- Task 1: Create Students table and find average marks
+
+
+CREATE TABLE Students (
+    student_id INT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    marks INT CHECK (marks > 0)
+);
+
+INSERT INTO Students (student_id, name, marks) VALUES
+(1, 'Alice', 45),
+(2, 'Bob', 55),
+(3, 'Charlie', 65),
+(4, 'Diana', 75),
+(5, 'Eve', 85);
+
+-- Query to find average marks
+SELECT AVG(marks) AS avg_marks FROM Students;
+
+
+-- Task 2: Update marks and display students with marks > 60
+
+
+UPDATE Students
+SET marks = marks + 5
+WHERE marks < 50;
+
+-- Display students whose marks are now greater than 60
+SELECT * FROM Students
+WHERE marks > 60;
+
+
+
+-- Task 3: Delete students with marks < 30 using transaction control
+
+
+START TRANSACTION;
+
+DELETE FROM Students
+WHERE marks < 30;
+
+-- Rollback the changes
+ROLLBACK;
+
+-- Verify that no records were deleted
+SELECT * FROM Students;
+
+
+
+-- Task 4: Create Students and Marks tables, display student name and total marks
+
+CREATE TABLE Students (
+    student_id INT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Marks (
+    student_id INT,
+    subject VARCHAR(50),
+    marks INT,
+    FOREIGN KEY (student_id) REFERENCES Students(student_id)
+);
+
+-- Sample data
+INSERT INTO Students VALUES
+(1, 'Alice'), (2, 'Bob'), (3, 'Charlie');
+
+INSERT INTO Marks VALUES
+(1, 'Math', 80),
+(1, 'Science', 70),
+(2, 'Math', 60),
+(2, 'Science', 50),
+(3, 'Math', 90),
+(3, 'Science', 85);
+
+-- Query to display student name and total marks
+SELECT s.name, SUM(m.marks) AS total_marks
+FROM Students s
+JOIN Marks m ON s.student_id = m.student_id
+GROUP BY s.name;
+
+
+
+-- Task 5: Create Employees table, insert records, display salary between 10000 and 30000
+
+CREATE TABLE Employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(50) NOT NULL,
+    salary INT CHECK (salary > 10000),
+    department VARCHAR(50) NOT NULL
+);
+
+INSERT INTO Employees VALUES
+(1, 'John', 12000, 'HR'),
+(2, 'Mary', 25000, 'Sales'),
+(3, 'Mike', 35000, 'IT'),
+(4, 'Sara', 15000, 'HR');
+
+-- Display employees with salary between 10000 and 30000
+SELECT * FROM Employees
+WHERE salary BETWEEN 10000 AND 30000;
+
+
+
+-- Task 6: Create TableA and TableB, UNION and INTERSECT
+
+CREATE TABLE TableA (
+    id INT,
+    name VARCHAR(50)
+);
+
+CREATE TABLE TableB (
+    id INT,
+    name VARCHAR(50)
+);
+
+-- Insert sample data
+INSERT INTO TableA VALUES (1,'Alice'),(2,'Bob'),(3,'Charlie');
+INSERT INTO TableB VALUES (2,'Bob'),(3,'Charlie'),(4,'Diana');
+
+-- Display all unique names using UNION
+SELECT name FROM TableA
+UNION
+SELECT name FROM TableB;
+
+-- Display common names using INTERSECT
+SELECT name FROM TableA
+INTERSECT
+SELECT name FROM TableB;
+
+
+
+-- Task 7: Create user, grant and revoke SELECT permission
+
+
+-- Example for MySQL
+CREATE USER 'testuser'@'localhost' IDENTIFIED BY 'password';
+GRANT SELECT ON Students TO 'testuser'@'localhost';
+REVOKE SELECT ON Students FROM 'testuser'@'localhost';
+
+
+
+-- Task 8: Create Sales table, display products with total sales > 500
+
+
+CREATE TABLE Sales (
+    product_id INT,
+    amount INT
+);
+
+INSERT INTO Sales VALUES
+(1, 200),
+(2, 300),
+(1, 350),
+(3, 100);
+
+-- Display products whose total sales are greater than 500
+SELECT product_id, SUM(amount) AS total_sales
+FROM Sales
+GROUP BY product_id
+HAVING SUM(amount) > 500;
+
+
+
+-- Task 9: Create Orders and Customers, display orders with customer names from Hyderabad
+
+CREATE TABLE Customers (
+    customer_id INT PRIMARY KEY,
+    name VARCHAR(50),
+    city VARCHAR(50)
+);
+
+CREATE TABLE Orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    amount INT,
+    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
+);
+
+-- Sample data
+INSERT INTO Customers VALUES
+(1, 'Alice', 'Hyderabad'),
+(2, 'Bob', 'Mumbai');
+
+INSERT INTO Orders VALUES
+(101, 1, 500),
+(102, 2, 800);
+
+-- Display all orders along with customer names where city = 'Hyderabad'
+SELECT o.order_id, c.name AS customer_name, o.amount
+FROM Orders o
+JOIN Customers c ON o.customer_id = c.customer_id
+WHERE c.city = 'Hyderabad';
+
+
+-- Task 10: Insert multiple records using transaction
+
+
+CREATE TABLE Products (
+    product_id INT PRIMARY KEY,
+    name VARCHAR(50),
+    price INT
+);
+
+START TRANSACTION;
+
+INSERT INTO Products VALUES
+(1, 'Pen', 10),
+(2, 'Notebook', 50),
+(3, 'Eraser', 5);
+
+COMMIT;
+
+-- Verify data is saved
+SELECT * FROM Products;
