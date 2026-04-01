@@ -1,0 +1,61 @@
+
+#1. Sample tuple of hours parked for each car
+hours_parked = (2, 5, 3, 1)
+bill = []
+cost = 50  # base rate per hour
+
+for h in hours_parked:
+    if h <= 2:
+        c = 2 * cost
+    elif h <= 5:
+        extra = h - 2
+        c = 2 * cost + extra * 100
+    else:
+        extra = h - 5
+        c = 2 * cost + 3 * 100 + extra * 150
+    bill.append(c)
+
+print("Car Parking Bill per car:", bill)
+print("Total Bill:", sum(bill))
+print()
+#sample output
+Car Parking Bill per car: [100, 400, 250, 100]
+Total Bill: 850
+
+
+# 2.t = (9, 7, 4, 5, 5, 5, 0)
+
+# 1. Count occurrences of a value
+def countno(t, val):
+    count = 0
+    for i in t:
+        if i == val:
+            count += 1
+    return count
+
+# 2. Index of first occurrence
+def index(t, val):
+    for i in range(len(t)):
+        if t[i] == val:
+            return i
+    return -1  # if not found
+
+# 3. Length of tuple
+def length(t):
+    count = 0
+    for _ in t:
+        count += 1
+    return count
+
+# 4. Check if all elements are non-zero
+def allele(t):
+    for i in t:
+        if i == 0:
+            return False
+    return True
+
+# Sample Input/Output
+print("Count of 5:", countno(t, 5))        # Output: 3
+print("Index of 5:", index(t, 5))          # Output: 3
+print("Length of tuple:", length(t))       # Output: 7
+print("All non-zero elements?", allele(t)) # Output: False

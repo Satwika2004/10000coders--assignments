@@ -1,0 +1,84 @@
+
+# 1. swapcase()
+def my_swapcase(s):
+    res = ""
+    for ch in s:
+        if 'a' <= ch <= 'z':
+            res += chr(ord(ch) - 32)
+        elif 'A' <= ch <= 'Z':
+            res += chr(ord(ch) + 32)
+        else:
+            res += ch
+    return res
+
+# Sample Input:
+# s = "hELLo123"
+# Sample Output:
+# HellO123
+
+print(my_swapcase("hELLo123"))
+
+# 2. strip()
+def my_strip(s):
+    l = 0
+    r = len(s) - 1
+
+    while l <= r and s[l] == " ":
+        l += 1
+
+    while r >= l and s[r] == " ":
+        r -= 1
+
+    return s[l:r+1]
+
+# Sample Input:
+# s = "   hi   "
+# Sample Output:
+# hi
+
+print("'" + my_strip("   hi   ") + "'")
+
+
+# 3. replace()
+def my_replace(s, old, new):
+    res = ""
+    i = 0
+
+    while i < len(s):
+        if s[i:i+len(old)] == old:
+            res += new
+            i += len(old)
+        else:
+            res += s[i]
+            i += 1
+
+    return res
+
+# Sample Input:
+# s = "apple apple"
+# old = "apple"
+# new = "orange"
+# Sample Output:
+# orange orange
+
+print(my_replace("apple apple", "apple", "orange"))
+
+# 4. rfind()
+def my_rfind(s, sub):
+    last = -1
+    i = 0
+
+    while i <= len(s) - len(sub):
+        if s[i:i+len(sub)] == sub:
+            last = i
+        i += 1
+
+    return last
+
+# Sample Input:
+# s = "banana"
+# sub = "an"
+# Sample Output:
+# 3
+
+print(my_rfind("banana", "an"))
